@@ -1,6 +1,7 @@
 /* ============================================================
    Equipos fitness de México — JS vanilla
    - Catálogo generado desde datos
+   - Búsqueda en vivo del catálogo
    - Menú móvil hamburguesa
    - Botón "Me interesa" → WhatsApp prellenado + scroll a contacto
    - Formulario → WhatsApp (sin servidor)
@@ -19,69 +20,13 @@
 
   /* ----------------------------------------------------------
      DATOS DEL CATÁLOGO
-     CAMBIAR: para usar tus fotos reales, guarda el archivo en
-     assets/img/ y cambia `imagen` a la ruta (ej: "assets/img/prensa.jpg").
-     Deja `imagen: null` para mostrar el placeholder gris.
+     Los productos se cargan desde js/datos.js (window.CATALOGO),
+     convertidos desde assets/data/lista-equipos.csv.
+     Para usar otras fotos, guarda el archivo en assets/img/ y
+     cambia `imagen` a la ruta (ej: "assets/img/prensa.jpg").
      Usa `precioAnterior: null` si el producto no tiene descuento.
   ---------------------------------------------------------- */
-  var CATALOGO = [
-    {
-      nombre: "Prensa de Piernas 45 grados",
-      descripcion: "Plataforma inclinada para trabajo intenso de pierna y glúteo. Ideal para zonas de fuerza y cardio.",
-      precio: 45900,
-      precioAnterior: 51000,
-      imagen: null
-    },
-    {
-      nombre: "Jaula de Sentadillas (Squat Rack)",
-      descripcion: "Estructura reforzada con soportes regulables y barras de seguridad para entrenar con confianza.",
-      precio: 23800,
-      precioAnterior: null,
-      imagen: null
-    },
-    {
-      nombre: "Smith Machine",
-      descripcion: "Guías de acero con movimiento controlado. Soporta cargas altas para rutinas de fuerza y volumen.",
-      precio: 38500,
-      precioAnterior: 42500,
-      imagen: null
-    },
-    {
-      nombre: "Polea Alta y Baja",
-      descripcion: "Torre de poleas con dos estaciones para espalda, brazos y abdominales. Cable de acero de larga duración.",
-      precio: 29800,
-      precioAnterior: null,
-      imagen: null
-    },
-    {
-      nombre: "Banco Olímpico Plano",
-      descripcion: "Base ancha con acojinamiento antideslizante. Soporta press de banca con cargas olímpicas.",
-      precio: 9800,
-      precioAnterior: 11500,
-      imagen: null
-    },
-    {
-      nombre: "Banco Ajustable Inclinable",
-      descripcion: "Respaldar con múltiples ángulos para desarrollar pecho, hombros y core de forma versátil.",
-      precio: 12400,
-      precioAnterior: null,
-      imagen: null
-    },
-    {
-      nombre: "Juego de Mancuernas Hex",
-      descripcion: "Juego de 2.5 kg a 25 kg (par) con cabeza hexagonal antirrotación y agarre cromado.",
-      precio: 21800,
-      precioAnterior: 24500,
-      imagen: null
-    },
-    {
-      nombre: "Discos Olímpicos (Carga Completa)",
-      descripcion: "Juego completo de discos de goma con agujero de 50 mm. Protege tu piso y soporta el uso diario.",
-      precio: 18900,
-      precioAnterior: null,
-      imagen: null
-    }
-  ];
+  var CATALOGO = window.CATALOGO || [];
 
   var formatearPrecio = function (valor) {
     return "$" + valor.toLocaleString("es-MX");
@@ -92,9 +37,11 @@
   ---------------------------------------------------------- */
   var grid = document.getElementById("gridCatalogo");
 
-  if (grid) {
+  var pintarCatalogo = function (productos) {
+    if (!grid) return;
+
     var html = "";
-    CATALOGO.forEach(function (producto, indice) {
+    productos.forEach(function (producto, indice) {
       var precio = formatearPrecio(producto.precio);
       var precioAnterior = producto.precioAnterior
         ? '<span class="tarjeta__precio--anterior">' + formatearPrecio(producto.precioAnterior) + "</span>"
@@ -117,7 +64,41 @@
         "</div>" +
         "</article>";
     });
+
     grid.innerHTML = html;
+  };
+
+  pintarCatalogo(CATALOGO);
+
+  /* ----------------------------------------------------------
+     BÚSQUEDA EN EL CATÁLOGO (filtra por nombre y descripción)
+  ---------------------------------------------------------- */
+  var normalizar = function (texto) {
+    return (texto || "")
+      .toLowerCase()
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "");
+  };
+
+  var buscador = document.getElementById("buscadorCatalogo");
+
+  if (buscador) {
+    buscador.addEventListener("input", function () {
+      var termino = normalizar(buscador.value);
+      if (!termino) {
+        pintarCatalogo(CATALOGO);
+        return;
+      }
+
+      var filtrados = CATALOGO.filter(function (producto) {
+        return (
+          normalizar(producto.nombre).indexOf(termino) !== -1 ||
+          normalizar(producto.descripcion).indexOf(termino) !== -1
+        );
+      });
+
+      pintarCatalogo(filtrados);
+    });
   }
 
   /* ----------------------------------------------------------
