@@ -153,23 +153,38 @@ a:hover {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  text-decoration: none;
+  min-width: 0;
 }
 .nav__logo:hover{
   text-decoration: none;
 }
 
 .nav__logo strong {
+  display: none;
   color: var(--acento);
+  font-size: 1rem;
+  white-space: nowrap;
 }
 
-.nav__logo-icono {
-  color: var(--acento);
-  font-size: 1.4rem;
-
+.nav__logo-img {
+  height: 36px;
+  width: auto;
+  max-width: 40vw;
+  flex-shrink: 0;
+  object-fit: contain;
 }
 
-.nav__logo-img{
-  width: 20%;
+@media (min-width: 480px) {
+  .nav__logo strong {
+    display: inline;
+  }
+}
+
+@media (min-width: 760px) {
+  .nav__logo-img {
+    height: 44px;
+  }
 }
 
 .nav__menu {
@@ -295,6 +310,7 @@ a:hover {
   content: none;
 }
 
+
 /* ============================================================
    N O S O T R O S
    ============================================================ */
@@ -358,6 +374,30 @@ a:hover {
 .catalogo {
   padding: 5rem 0;
   background: var(--fondo);
+}
+
+.catalogo__buscador {
+  width: 100%;
+  max-width: 480px;
+  display: block;
+  margin: 0 auto 1.6rem;
+  padding: 0.75rem 1.1rem;
+  border: 1px solid var(--borde);
+  border-radius: var(--radio);
+  background: var(--fondo-2);
+  color: var(--texto);
+  font-size: 1rem;
+  font-family: var(--fuente);
+}
+
+.catalogo__buscador::placeholder {
+  color: var(--texto-suave);
+}
+
+.catalogo__buscador:focus {
+  outline: none;
+  border-color: var(--acento);
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
 }
 
 .catalogo__grid {
@@ -661,18 +701,12 @@ a:hover {
   .contacto__grid {
     grid-template-columns: 1fr;
   }
-  .nav__logo-img{
-  width: 30%;
-}
 }
 
 @media (max-width: 760px) {
   .nav__hamburguesa {
     display: flex;
   }
-.nav__logo-img{
-  width: 35%;
-}
   .nav__menu {
     position: absolute;
     top: 64px;

@@ -12,9 +12,8 @@
   <!-- ===== N A V B A R ===== -->
   <header class="nav" id="inicio">
     <div class="nav__contenedor">
-      <img src="./assets/img/EquipoFintnessLogo.png" class="nav__logo-img" alt="Equipos Fitness de Mexico">
       <a href="#inicio" class="nav__logo" aria-label="Equipos fitness de México, inicio">
-        <span class="nav__logo-icono" aria-hidden="true"></span>
+        <img src="./assets/img/EquipoFintnessLogo.png" class="nav__logo-img" alt="Equipos Fitness de Mexico">
         <strong>Equipos fitness de México</strong>
       </a>
       <button class="nav__hamburguesa" id="navHamburguesa" aria-label="Abrir menú" aria-expanded="false">
@@ -35,6 +34,7 @@
     <section class="hero">
       <div class="hero__imagen" role="img" aria-label="Equipo comercial para gimnasio">
         <!-- CAMBIAR: reemplaza por assets/img/hero.jpg -->
+         <img src="./assets/img/EquipoFintnessLogo.png" alt="Equipos Fitness de México logo">
       </div>
       <div class="hero__fondo"></div>
       <div class="hero__contenido">
@@ -94,8 +94,10 @@
         <h2 class="seccion__titulo">Catálogo de equipos</h2>
         <p class="seccion__subtitulo">Equipo comercial nuevo con disponibilidad inmediata. Toca <em>“Me interesa”</em> para cotizarlo por WhatsApp.</p>
 
+        <input type="search" class="catalogo__buscador" id="buscadorCatalogo" placeholder="Buscar equipo por nombre o descripción..." aria-label="Buscar en el catálogo">
+
         <div class="catalogo__grid" id="gridCatalogo">
-          <!-- Las tarjetas se generan desde js/datos (ver js/app.js) -->
+          <!-- Las tarjetas se generan desde js/datos.js -->
         </div>
       </div>
     </section>
@@ -187,6 +189,7 @@
     <span class="whatsapp-flotante__texto">Cotiza aquí</span>
   </a>
 
+  <script src="js/datos.js"></script>
   <script src="js/app.js"></script>
 </body>
 </html>
