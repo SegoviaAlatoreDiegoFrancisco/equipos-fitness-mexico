@@ -1,6 +1,8 @@
 # Equipos Fitness de México — Landing Page
 
 Landing page one-page para la venta de equipos de gimnasio. HTML, CSS y JS vanilla (sin frameworks ni preprocesadores).
+Desplegada en Vercel: 
+[Equipos Fitness de Mexico](https://equipos-fitness-mexico.vercel.app/)
 
 ## Estructura
 
